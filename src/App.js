@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 
+require('dotenv').config();
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -27,8 +29,15 @@ class App extends Component {
   }
 
   login() {
-    alert('set up your login function here')
-  }
+    // alert('set up your login function here')
+    const baseUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}`;
+    const encodeUri = encodeURIComponent(`${window.location.origin}/callback`);
+    const redirectUrl = baseUrl + 
+                                  `/authorize?client_id={REACT_APP_AUTH0_CLIENT_ID}` + 
+                                  `&scope=openid%20profile%20email` +
+                                  `&redirect_uri=${encodeUri}` + 
+                                  `&response_type=code`;
+};
 
   logout() {
     axios.post('/api/logout').then(response => {

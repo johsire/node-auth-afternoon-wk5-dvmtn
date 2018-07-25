@@ -26,8 +26,7 @@ app.get('/callback', async (req, res) => {
   };
 
   let accessToken = await axios.post(`https://{REACT_APP_AUTH0_DOMAIN}/oauth/token`, payload);
-  let userInfo = await axios.get(`https://{REACT_APP_AUTH0_DOMAIN}/userinfo?access_token=${accessToken.data.access_token
-  }`);
+  let userInfo = await axios.get(`https://{REACT_APP_AUTH0_DOMAIN}/userinfo?access_token=${accessToken.data.access_token}`);
 
   req.session.user = userInfo.data;
   res.redirect('/')
@@ -36,6 +35,7 @@ app.get('/callback', async (req, res) => {
 
 })
 
+// this is how we redirect the user after they login;
 app.get('/api/user-data', (req, res) => {
   res.status(200).json(req.session.user)
 })
