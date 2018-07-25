@@ -23,20 +23,18 @@ class App extends Component {
     axios.get('/api/user-data').then(user => {
       this.setState({
         user: user.data,
-        gitUser: user.data.nickname
+        User: user.data.nickname
       });
     });
   }
 
   login() {
+    const { REACT_APP_AUTH0_DOMAIN, REACT_APP_AUTH0_CLIENT_ID } = process.env;
     // alert('set up your login function here')
-    const baseUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}`;
+    const baseUrl = `https://${REACT_APP_AUTH0_DOMAIN}`;
     const encodeUri = encodeURIComponent(`${window.location.origin}/callback`);
-    const redirectUrl = baseUrl + 
-                                  `/authorize?client_id={REACT_APP_AUTH0_CLIENT_ID}` + 
-                                  `&scope=openid%20profile%20email` +
-                                  `&redirect_uri=${encodeUri}` + 
-                                  `&response_type=code`;
+    const redirectUrl = `${baseUrl}/authorize?client_id=${REACT_APP_AUTH0_CLIENT_ID}&scope=openid%20profile%20email&redirect_uri=${encodeUri}&response_type=code`;
+    window.location = redirectUrl;
 };
 
   logout() {
